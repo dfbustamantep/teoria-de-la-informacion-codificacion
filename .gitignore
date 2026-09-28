@@ -1,0 +1,10 @@
+# Archivos compilados de C++
+*.exe
+*.o
+*.out
+
+# Ignorar todo el contenido de la carpeta de datos multimedia
+data/*
+
+# (Opcional) Archivos temporales del sistema operativo Windows
+desktop.inis
