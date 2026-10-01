@@ -21,7 +21,7 @@ if st.button("Procesar Archivo"):
         st.info(f"Procesando {archivo_subido.name} con bloques de {n_bits} bits...")
 
         # 2. Conectar la Interfaz con el código C++
-        # Ejecutamos el binario compilado y capturamos lo que imprime en consola
+        
         comando = f"./codificador_6g '{ruta_guardado}' {n_bits}"
         resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
 
