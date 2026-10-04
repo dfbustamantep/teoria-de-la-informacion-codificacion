@@ -22,8 +22,10 @@ if st.button("Procesar Archivo"):
 
         # 2. Conectar la Interfaz con el código C++
         
-        comando = f"./codificador_6g '{ruta_guardado}' {n_bits}"
-        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
+        ruta_ejecutable = os.path.abspath("codificador_6g.exe")  # O "codificador_6g" según corresponda
+
+        comando = [ruta_ejecutable, ruta_guardado, str(n_bits)]
+        resultado = subprocess.run(comando, capture_output=True, text=True)
 
         # 3. Mostrar los resultados matemáticos
         if resultado.returncode == 0:
