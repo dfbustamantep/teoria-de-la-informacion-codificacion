@@ -25,10 +25,7 @@ string Compresor::codificar(const vector<string>& simbolos, const string& tipoCo
         vector<int> salidaComprimida;
         int codigoActual = 256; // Empezamos después de los 256 valores ASCII básicos
 
-        // 1. Inicializar el diccionario con los símbolos únicos base
-        // Para N bits, idealmente inicializamos con los bloques únicos básicos.
-        // Por simplicidad, agregaremos los símbolos sobre la marcha.
-        
+        // 1. Inicializar el primer patrón
         string p = simbolos[0];
         
         // 2. Bucle principal de LZW
@@ -41,9 +38,12 @@ string Compresor::codificar(const vector<string>& simbolos, const string& tipoCo
                 p = pc;
             } else {
                 // Si no existe, guardamos el código de 'p' en la salida
-                // (Aquí simulamos guardar el código int, en la realidad se serializa a binario)
-                if (p.length() == 1) salidaComprimida.push_back((unsigned char)p[0]);
-                else salidaComprimida.push_back(diccionario[p]);
+                int codigoSalida = (p.length() == 1) ? (unsigned char)p[0] : diccionario[p];
+                salidaComprimida.push_back(codigoSalida);
+               
+                // --- TRAZA PASO A PASO PARA STREAMLIT ---
+                cout << "[LZW Paso] Patrón: '" << p << "' | Código generado: " << codigoSalida 
+                     << " | Nuevo término en diccionario ID " << codigoActual << endl;
 
                 // Agregamos la nueva secuencia 'pc' al diccionario
                 diccionario[pc] = codigoActual++;
@@ -74,8 +74,6 @@ vector<string> Compresor::decodificar(const string& flujoComprimido, const strin
 
     if (tipoCodificacion == "Uniforme") {
         cout << "[Decodificador] Decodificando Uniforme..." << endl;
-        // Aquí dividiríamos el string nuevamente en bloques de N bits.
-        // Se requiere pasar N como parámetro en una versión final.
     } 
     else if (tipoCodificacion == "LZW") {
         cout << "[Decodificador] Reconstruyendo mediante LZW..." << endl;
@@ -95,7 +93,7 @@ vector<string> Compresor::decodificar(const string& flujoComprimido, const strin
 
         // El primer código se procesa directamente
         int viejoCodigo = codigos[0];
-        string s(1, (char)viejoCodigo); // Simulando el caso base
+        string s(1, (char)viejoCodigo); 
         simbolosReconstruidos.push_back(s);
 
         string c = s;
